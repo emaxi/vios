@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maximiliano Gonzalez</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f4f5f7;
+      --surface: #ffffff;
+      --primary: #0a66c2;
+      --primary-dark: #004182;
+      --text: #1d2226;
+      --text-sub: #555f6e;
+      --border: #dde1e7;
+      --accent: #057642;
+      --radius: 12px;
+      --shadow: 0 2px 12px rgba(0,0,0,.08);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── Layout ────────────────────────────────────── */
+    .page {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 24px 16px 64px;
+    }
+
+    /* ── Card ──────────────────────────────────────── */
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px 32px;
+      margin-bottom: 20px;
+    }
+
+    /* ── Header / Hero ─────────────────────────────── */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+      background: var(--surface);
+    }
+
+    .hero-banner {
+      height: 140px;
+      background: linear-gradient(135deg, #0a66c2 0%, #004182 60%, #00274d 100%);
+    }
+
+    .hero-body {
+      padding: 0 32px 28px;
+    }
+
+    .hero-avatar {
+      width: 108px;
+      height: 108px;
+      border-radius: 50%;
+      border: 4px solid #fff;
+      object-fit: cover;
+      margin-top: -54px;
+      display: block;
+      background: #e0e0e0;
+    }
+
+    .hero-name {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-top: 12px;
+      color: var(--text);
+    }
+
+    .hero-headline {
+      font-size: 1rem;
+      color: var(--text-sub);
+      margin-top: 4px;
+    }
+
+    .hero-location {
+      font-size: 0.875rem;
+      color: var(--text-sub);
+      margin-top: 6px;
+    }
+
+    .open-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 12px;
+      padding: 4px 12px;
+      border: 2px solid var(--accent);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .hero-links {
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .hero-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 16px;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background .2s, color .2s;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover { background: var(--primary-dark); }
+
+    .btn-outline {
+      border: 1.5px solid var(--primary);
+      color: var(--primary);
+      background: transparent;
+    }
+
+    .btn-outline:hover { background: #e8f0fe; }
+
+    /* ── Section headings ──────────────────────────── */
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title svg { flex-shrink: 0; }
+
+    /* ── Timeline (experience / education) ─────────── */
+    .timeline { list-style: none; }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 0 16px;
+      padding-bottom: 28px;
+      position: relative;
+    }
+
+    .timeline-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 25px;
+      top: 52px;
+      bottom: 0;
+      width: 2px;
+      background: var(--border);
+    }
+
+    .timeline-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      object-fit: contain;
+      background: #f8f9fa;
+      padding: 4px;
+      flex-shrink: 0;
+    }
+
+    .timeline-logo-placeholder {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #f0f2f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .timeline-content { min-width: 0; }
+
+    .timeline-role {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text);
+    }
+
+    .timeline-company {
+      font-size: 0.9rem;
+      color: var(--text-sub);
+      margin-top: 2px;
+    }
+
+    .timeline-meta {
+      font-size: 0.82rem;
+      color: #8a9099;
+      margin-top: 3px;
+    }
+
+    .timeline-desc {
+      margin-top: 8px;
+      font-size: 0.88rem;
+      color: var(--text-sub);
+    }
+
+    /* ── Skills ─────────────────────────────────────── */
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .skill-tag {
+      background: #e8f0fe;
+      color: var(--primary);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .skill-tag.devops { background: #e8f5e9; color: #2e7d32; }
+    .skill-tag.cloud  { background: #fff3e0; color: #e65100; }
+    .skill-tag.data   { background: #f3e5f5; color: #6a1b9a; }
+
+    /* ── Recommendation ───────────────────────────── */
+    .rec-item {
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .rec-item:last-child { border-bottom: none; }
+
+    .rec-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .rec-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .rec-name { font-weight: 700; font-size: 0.95rem; }
+    .rec-role { font-size: 0.82rem; color: var(--text-sub); }
+    .rec-date { font-size: 0.8rem; color: #8a9099; }
+
+    .rec-text {
+      font-size: 0.9rem;
+      color: var(--text-sub);
+      line-height: 1.65;
+      font-style: italic;
+    }
+
+    /* ── Print ──────────────────────────────────────── */
+    @media print {
+      body { background: #fff; }
+      .page { padding: 0; }
+      .card, .hero { box-shadow: none; margin-bottom: 14px; }
+      .hero-links, .open-badge, .btn-primary, .btn-outline { display: none; }
+    }
+
+    /* ── Responsive ──────────────────────────────────── */
+    @media (max-width: 600px) {
+      .card { padding: 20px 18px; }
+      .hero-body { padding: 0 18px 22px; }
+      .hero-name { font-size: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ── Hero ──────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero-banner"></div>
+    <div class="hero-body">
+      <img
+        class="hero-avatar"
+        src="assets/images/avatar.jpg"
+        alt="Maximiliano Gonzalez"
+        onerror="this.style.display='none'"
+      />
+      <h1 class="hero-name">Maximiliano Gonzalez</h1>
+      <p class="hero-headline">Software Developer · TS · React · Next.js · Python · K8s · Terraform · Ansible · AWS</p>
+      <div class="hero-links">
+        <a class="btn-primary" href="https://www.linkedin.com/in/maxigonza/" target="_blank" rel="noopener">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── About ──────────────────────────────────────── -->
+  <section class="card">
+    <h2 class="section-title">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#0a66c2" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+      About
+    </h2>
+    <p style="color:var(--text-sub);line-height:1.75;">
+      Senior full-stack software developer with +15 years of experience in many diverse verticals, including ecommerce, healthcare, real estate, and fundraising platforms.
+    </p>
+  </section>
+
+  <!-- ── Experience ────────────────────────────────── -->
+  <section class="card">
+    <h2 class="section-title">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#0a66c2" viewBox="0 0 24 24"><path d="M20 6h-1V4c0-1.1-.9-2-2-2H7c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-3 0H7V4h10v2z"/></svg>
+      Experience
+    </h2>
+    <ul class="timeline">
+
+      <li class="timeline-item">
+        <img class="timeline-logo"
+          src="assets/images/freelance-logo.jpg"
+          alt="Freelance" onerror="this.style.display='none'">
+        <div class="timeline-content">
+          <div class="timeline-role">Software Developer</div>
+          <div class="timeline-company">Freelance (Self-employed) · Full-time</div>
+          <div class="timeline-meta">Oct 2023 – Present · 2 yrs 5 mos</div>
+          <p class="timeline-desc">Python · Terraform · OpenTelemetry · Kubernetes · Prometheus · Ansible · htmx · React.js · Microservices · Rust · TypeScript · Tailwind CSS · Next.js · Generative AI</p>
+        </div>
+      </li>
+
+      <li class="timeline-item">
+        <img class="timeline-logo"
+          src="assets/images/sudolabs-logo.jpg"
+          alt="Sudo Laboratories" onerror="this.style.display='none'">
+        <div class="timeline-content">
+          <div class="timeline-role">Full Stack Developer</div>
+          <div class="timeline-company">Sudo Laboratories · Full-time · Remote</div>
+          <div class="timeline-meta">May 2021 – Aug 2023 · 2 yrs 4 mos</div>
+          <p class="timeline-desc">AWS · Python · Web Crawling · FastAPI · Prefect · Puppeteer · DBT · React.js · Microservices · Pandas · TypeScript · Tailwind CSS · Next.js</p>
+        </div>
+      </li>
+
+      <li class="timeline-item">
+        <div class="timeline-logo-placeholder">🏢</div>
+        <div class="timeline-content">
+          <div class="timeline-role">Full Stack Developer</div>
+          <div class="timeline-company">Allegiance Fundraising · Full-time</div>
+          <div class="timeline-meta">Sep 2020 – May 2021 · 9 mos</div>
+          <p class="timeline-desc">AWS · Azure · Jenkins · K8s · DevOps · API</p>
+        </div>
+      </li>
+
+      <li class="timeline-item">
+        <img class="timeline-logo"
+          src="assets/images/ipsy-logo.jpg"
+          alt="IPSY" onerror="this.style.display='none'">
+        <div class="timeline-content">
+          <div class="timeline-role">Full Stack Developer</div>
+          <div class="timeline-company">IPSY · Full-time</div>
+          <div class="timeline-meta">Sep 2017 – Sep 2020 · 3 yrs 1 mo</div>
+          <p class="timeline-desc">AWS · APIs · Terraform · Grafana · Data Pipelines · InfluxDB · Jenkins · Ruby on Rails · Apache Airflow · React.js · Go · Algolia · Databricks · PostgreSQL · Elasticsearch · Scikit-Learn</p>
+        </div>
+      </li>
+
+      <li class="timeline-item">
+        <div class="timeline-logo-placeholder">🏢</div>
+        <div class="timeline-content">
+          <div class="timeline-role">Technical Lead</div>
+          <div class="timeline-company">WeDidit · Full-time · Remote</div>
+          <div class="timeline-meta">May 2015 – Sep 2017 · 2 yrs 5 mos</div>
+          <p class="timeline-desc">Ruby on Rails · Ruby · Jenkins · Terraform · AWS · Kubernetes · Python · React.js · Microservices · Docker · Stripe · Elasticsearch · Scrum</p>
+        </div>
+      </li>
+
+      <li class="timeline-item">
+        <img class="timeline-logo"
+          src="assets/images/goodpeople-logo.jpg"
+          alt="Greencode Software" onerror="this.style.display='none'">
+        <div class="timeline-content">
+          <div class="timeline-role">Full Stack Developer</div>
+          <div class="timeline-company">Greencode Software · Full-time · Hybrid</div>
+          <div class="timeline-meta">Nov 2014 – Apr 2015 · 6 mos</div>
+          <p class="timeline-desc">Agile · Redis · Ruby on Rails · Heroku · Backbone.js · RSpec · TDD</p>
+        </div>
+      </li>
+
+      <li class="timeline-item">
+        <img class="timeline-logo"
+          src="assets/images/conslog-logo.jpg"
+          alt="ConsLog" onerror="this.style.display='none'">
+        <div class="timeline-content">
+          <div class="timeline-role">Full Stack Developer</div>
+          <div class="timeline-company">ConsLog – Construction Real Estate Software For Owners · Full-time</div>
+          <div class="timeline-meta">May 2014 – Oct 2014 · 6 mos</div>
+          <p class="timeline-desc">Solo developer maintaining a construction management software. HTML · Ruby on Rails · CSS · JavaScript · Stripe</p>
+        </div>
+      </li>
+
+      <li class="timeline-item">
+        <img class="timeline-logo"
+          src="assets/images/greencode-logo.jpg"
+          alt="GoodPeople Argentina" onerror="this.style.display='none'">
+        <div class="timeline-content">
+          <div class="timeline-role">Full Stack Developer</div>
+          <div class="timeline-company">GoodPeople Argentina · Full-time · On-site</div>
+          <div class="timeline-meta">Apr 2013 – Aug 2014 · 1 yr 5 mos</div>
+          <p class="timeline-desc">PayPal · AWS · Redis · GitHub · Ruby on Rails · Backbone.js · Solr · Braintree · MySQL</p>
+        </div>
+      </li>
+
+      <li class="timeline-item">
+        <div class="timeline-logo-placeholder">🏢</div>
+        <div class="timeline-content">
+          <div class="timeline-role">Main Backend Developer</div>
+          <div class="timeline-company">Dreepi · Full-time · Hybrid</div>
+          <div class="timeline-meta">Jun 2012 – Mar 2013 · 10 mos</div>
+          <p class="timeline-desc">Grape · Ruby on Rails · SASS</p>
+        </div>
+      </li>
+
+      <li class="timeline-item">
+        <div class="timeline-logo-placeholder">🏢</div>
+        <div class="timeline-content">
+          <div class="timeline-role">Backend Developer</div>
+          <div class="timeline-company">Pinggers · Full-time</div>
+          <div class="timeline-meta">Feb 2011 – Jun 2012 · 1 yr 5 mos</div>
+          <p class="timeline-desc">Backend developer in a daily deal aggregator gathering offers from several deal sites across 10 countries. Ruby on Rails · Capistrano · Ruby · MongoDB · APIs</p>
+        </div>
+      </li>
+
+      <li class="timeline-item">
+        <img class="timeline-logo"
+          src="assets/images/vurbia-logo.jpg"
+          alt="Vurbia Technologies" onerror="this.style.display='none'">
+        <div class="timeline-content">
+          <div class="timeline-role">Software Developer</div>
+          <div class="timeline-company">Vurbia Technologies International Inc. · Full-time · On-site</div>
+          <div class="timeline-meta">Jan 2009 – Jan 2011 · 2 yrs 1 mo</div>
+          <p class="timeline-desc">Git · Ruby on Rails · Ruby · Splunk · Ffmpeg · Transcoding · Scrum</p>
+        </div>
+      </li>
+
+      <li class="timeline-item" style="padding-bottom:0;">
+        <div class="timeline-logo-placeholder">🏢</div>
+        <div class="timeline-content">
+          <div class="timeline-role">Web Developer</div>
+          <div class="timeline-company">Scala · Full-time · Remote</div>
+          <div class="timeline-meta">Jan 2008 – Dec 2008 · 1 yr</div>
+          <p class="timeline-desc">Maintained an e-commerce app built in Rails 2.0. HTML · CSS · Ruby on Rails · Ruby · SQL · JavaScript</p>
+        </div>
+      </li>
+
+    </ul>
+  </section>
+
+  <!-- ── Education ────────────────────────────────── -->
+  <section class="card">
+    <h2 class="section-title">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#0a66c2" viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18V17h2v-4.5L12 15l7-3.5V13c0 1.66-3.13 3-7 3s-7-1.34-7-3v-1.14L1 11v6h2v-3.82L12 21l11-6-11-6z"/></svg>
+      Education
+    </h2>
+    <ul class="timeline">
+
+      <li class="timeline-item">
+        <div class="timeline-logo-placeholder">🏫</div>
+        <div class="timeline-content">
+          <div class="timeline-role">Universidad Tecnológica UTN</div>
+          <div class="timeline-company">Software Engineering</div>
+          <div class="timeline-meta">2019 · Unfinished Bachelor of Software Engineering</div>
+        </div>
+      </li>
+
+      <li class="timeline-item" style="padding-bottom:0;">
+        <div class="timeline-logo-placeholder">🏫</div>
+        <div class="timeline-content">
+          <div class="timeline-role">Instituto San Jose</div>
+          <div class="timeline-company">Electronics Technician</div>
+          <div class="timeline-meta">Jan 1997 – Jan 2005</div>
+        </div>
+      </li>
+
+    </ul>
+  </section>
+
+  <!-- ── Skills ───────────────────────────────────── -->
+  <section class="card">
+    <h2 class="section-title">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#0a66c2" viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg>
+      Skills
+    </h2>
+
+    <p style="font-size:.75rem;color:#8a9099;margin-bottom:12px;text-transform:uppercase;letter-spacing:.05em;font-weight:600;">Frontend</p>
+    <div class="skills-grid" style="margin-bottom:18px;">
+      <span class="skill-tag">TypeScript</span>
+      <span class="skill-tag">React</span>
+      <span class="skill-tag">Next.js</span>
+      <span class="skill-tag">JavaScript</span>
+      <span class="skill-tag">HTML / CSS</span>
+      <span class="skill-tag">Redux</span>
+      <span class="skill-tag">GraphQL</span>
+    </div>
+
+    <p style="font-size:.75rem;color:#8a9099;margin-bottom:12px;text-transform:uppercase;letter-spacing:.05em;font-weight:600;">Backend</p>
+    <div class="skills-grid" style="margin-bottom:18px;">
+      <span class="skill-tag">Python</span>
+      <span class="skill-tag">Node.js</span>
+      <span class="skill-tag">Ruby on Rails</span>
+      <span class="skill-tag">REST APIs</span>
+      <span class="skill-tag">Ruby</span>
+      <span class="skill-tag">PostgreSQL</span>
+      <span class="skill-tag">MySQL</span>
+    </div>
+
+    <p style="font-size:.75rem;color:#8a9099;margin-bottom:12px;text-transform:uppercase;letter-spacing:.05em;font-weight:600;">Cloud &amp; Infrastructure</p>
+    <div class="skills-grid" style="margin-bottom:18px;">
+      <span class="skill-tag cloud">AWS</span>
+      <span class="skill-tag cloud">Azure</span>
+      <span class="skill-tag cloud">GCP</span>
+      <span class="skill-tag devops">Kubernetes (K8s)</span>
+      <span class="skill-tag devops">Terraform</span>
+      <span class="skill-tag devops">Ansible</span>
+      <span class="skill-tag devops">Docker</span>
+      <span class="skill-tag devops">CI/CD</span>
+    </div>
+
+    <p style="font-size:.75rem;color:#8a9099;margin-bottom:12px;text-transform:uppercase;letter-spacing:.05em;font-weight:600;">Data &amp; Other</p>
+    <div class="skills-grid">
+      <span class="skill-tag data">Data Engineering</span>
+      <span class="skill-tag data">Elasticsearch</span>
+      <span class="skill-tag">Git</span>
+      <span class="skill-tag">Linux</span>
+      <span class="skill-tag">Microservices</span>
+      <span class="skill-tag">Agile / Scrum</span>
+    </div>
+
+    <p style="font-size:.8rem;color:#8a9099;margin-top:16px;text-align:center;">
+      77 total skills on <a href="https://www.linkedin.com/in/maxigonza/details/skills" target="_blank" rel="noopener" style="color:var(--primary);">LinkedIn</a>
+    </p>
+  </section>
+
+  <!-- ── Recommendation ──────────────────────────── -->
+  <section class="card">
+    <h2 class="section-title">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#0a66c2" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+      Recommendations
+    </h2>
+
+    <div class="rec-item">
+      <div class="rec-header">
+        <img class="rec-avatar"
+          src="assets/images/rec-alex-chen.jpg"
+          alt="Alex Chen" onerror="this.style.display='none'">
+        <div>
+          <div class="rec-name">Alex Chen</div>
+          <div class="rec-role">Software Engineering and Investing Platform at Goodwater Capital</div>
+          <div class="rec-date">December 6, 2025 · Alex managed Maximiliano directly</div>
+        </div>
+      </div>
+      <p class="rec-text">
+        "I worked with Maxi at IPSY on multiple backend Ruby on Rails projects, and he quickly became our in-house expert on search and product indexing. His technical depth and ability to untangle complex problems made a real impact on the team.
+        <br><br>
+        Beyond the specific work, Maxi is a brilliant engineer who consistently does the right thing, learns fast, and jumps into new challenges without hesitation. He's responsible, hardworking, and genuinely pleasant to work with. Any team would be fortunate to have him."
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Footer ─────────────────────────────────────── -->
+  <footer style="text-align:center;font-size:.8rem;color:#8a9099;padding-top:8px;">
+    <p>Maximiliano Gonzalez · Buenos Aires, Argentina</p>
+    <p style="margin-top:4px;">
+      <a href="https://www.linkedin.com/in/maxigonza/" target="_blank" rel="noopener" style="color:var(--primary);">linkedin.com/in/maxigonza</a>
+      &nbsp;·&nbsp;
+      <a href="https://github.com/emaxi" target="_blank" rel="noopener" style="color:var(--primary);">github.com/emaxi</a>
+    </p>
+  </footer>
+
+</div>
+</body>
+</html>
